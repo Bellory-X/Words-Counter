@@ -21,7 +21,8 @@ public class Main {
         {
             String str = Counter.getWordsWithFrequencies(in);
 
-            if (str.isEmpty()) return;
+            if (str.isEmpty())
+                return;
 
             if (args.length == 1)
                 System.out.println(str);
