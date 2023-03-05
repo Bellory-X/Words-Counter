@@ -2,16 +2,15 @@ package org.example;
 
 import java.io.FileReader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Counter {
     private final List<Data> dataList = new ArrayList<>();
-    private int totalWords = 0;
 
     private Counter(Scanner in) {
         Map<String, Integer> map = new TreeMap<>();
         String word;
         int count;
+        int totalWords = 0;
         while (in.hasNext()) {
             word = in.next();
             totalWords++;
@@ -34,7 +33,12 @@ public class Counter {
 
     public static String getWordsWithFrequencies(FileReader in) {
         Counter counter = new Counter(new Scanner(in));
-        return counter.dataList.stream().map(Object::toString).collect(Collectors.joining("\n"));
+
+        StringJoiner str = new StringJoiner("\n");
+
+        counter.dataList.forEach(data -> str.add(data.toString()));
+
+        return str.toString();
     }
 
     private static final class Data implements Comparable<Data> {
@@ -51,14 +55,6 @@ public class Counter {
         @Override
         public String toString() {
             return word + ", " + frequency + ", " + percentage;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this) return true;
-            if (obj == null || obj.getClass() != this.getClass()) return false;
-            var that = (Data) obj;
-            return this.frequency.equals(that.frequency);
         }
 
         @Override
